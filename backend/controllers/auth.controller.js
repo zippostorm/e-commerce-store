@@ -81,7 +81,38 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {};
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    const { accessToken, refreshToken } = generateTokens(user._id);
+    await storeRefreshToken(user._id, refreshToken);
+    setCookies(res, accessToken, refreshToken);
+
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+      message: "User logged in successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const logout = async (req, res) => {
   try {
