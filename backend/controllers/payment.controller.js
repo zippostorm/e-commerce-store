@@ -98,7 +98,6 @@ export const сheckoutSuccess = async (req, res) => {
         paymentIntent: session.payment_intent,
         stripeSessionId: sessionId,
       });
-
       await newOrder.save();
       res.status(200).json({ message: "Order created successfully" });
     }
