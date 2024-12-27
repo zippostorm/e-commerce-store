@@ -10,7 +10,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import AdminPage from "./pages/AdminPage";
 
 const App = () => {
-  const { user, checkAuth, checkingAuth } = useUserStore();
+  const { user, checkAuth, checkingAuth, refreshAccessToken } = useUserStore();
 
   useEffect(() => {
     if (user) {

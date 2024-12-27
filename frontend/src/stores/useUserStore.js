@@ -58,6 +58,7 @@ export const useUserStore = create(
 
       checkAuth: async () => {
         set({ checkingAuth: true }, false, "Checking auth start");
+        await get().refreshAccessToken();
         try {
           const res = await axios.get("/auth/profile");
           set(
@@ -66,11 +67,20 @@ export const useUserStore = create(
             "Checking auth success"
           );
         } catch (error) {
-          set(
-            { checkingAuth: false, user: null },
-            false,
-            "Checking auth failure"
+          set({ checkingAuth: false }, false, "Checking auth failure");
+        }
+      },
+
+      refreshAccessToken: async () => {
+        try {
+          const res = await axios.post("/auth/refresh-token");
+        } catch (error) {
+          console.error(
+            "Failed to refresh token:",
+            error.response?.data?.message || error.message
           );
+          toast.error("Session expired, please log in again");
+          get().logout(); // Очистить данные пользователя
         }
       },
     }),
