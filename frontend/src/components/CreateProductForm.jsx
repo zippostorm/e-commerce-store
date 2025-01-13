@@ -178,6 +178,16 @@ const CreateProductForm = () => {
           )}
         </div>
 
+        {newProduct.image && (
+          <div className="mt-4">
+            <img
+              src={newProduct.image}
+              alt="Product"
+              className="object-cover"
+            />
+          </div>
+        )}
+
         <button
           type="submit"
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md 
