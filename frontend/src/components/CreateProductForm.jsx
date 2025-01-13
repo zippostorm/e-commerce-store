@@ -5,13 +5,13 @@ import { useProductStore } from "../stores/useProductStore";
 import { useUserStore } from "../stores/useUserStore";
 
 const categories = [
-  "jean",
-  "t-shirt",
-  "shoe",
+  "jeans",
+  "t-shirts",
+  "shoes",
   "glasses",
-  "jacket",
-  "suit",
-  "bag",
+  "jackets",
+  "suits",
+  "bags",
 ];
 
 const CreateProductForm = () => {
