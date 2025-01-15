@@ -10,6 +10,7 @@ export const useCartStore = create(
       coupon: null,
       total: 0,
       subtotal: 0,
+      isCouponApplied: false,
 
       getCartItems: async () => {
         try {
@@ -43,6 +44,25 @@ export const useCartStore = create(
         } catch (error) {
           toast.error(error.response.data.message || "An error occurred");
         }
+      },
+
+      removeFromCart: async (productId) => {
+        await axios.delete(`/cart`, { data: { productId } });
+        set((prevState) => ({
+          cart: prevState.cart.filter((item) => item._id !== productId),
+        }));
+        get().calculateTotals();
+      },
+
+      updateQuantity: async (productId, quantity) => {
+        if (quantity === 0) return get().removeFromCart(productId);
+        await axios.put(`/cart/${productId}`, { quantity });
+        set((prevState) => ({
+          cart: prevState.cart.map((item) =>
+            item._id === productId ? { ...item, quantity } : item
+          ),
+        }));
+        get().calculateTotals();
       },
 
       calculateTotals: () => {
