@@ -74,7 +74,7 @@ export const createCheckoutSession = async (req, res) => {
   }
 };
 
-export const сheckoutSuccess = async (req, res) => {
+export const checkoutSuccess = async (req, res) => {
   try {
     const { sessionId } = req.body;
     const session = await stripe.checkout.sessions.retrieve(sessionId);
