@@ -3,6 +3,12 @@ import { motion } from "framer-motion";
 import { useCartStore } from "../stores/useCartStore";
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "../lib/axios";
+
+const stripePromise = loadStripe(
+  "pk_test_51QZ8NpBord2Ube0KMTg0E15ihTw4bjPZqMuJ9guNMhGpSQxFDjAv3lqN52ioVvw2GT9SfpPilo29uS3eAGPUaJIv008mDtPigf"
+);
 
 const OrderSummary = () => {
   const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore();
@@ -12,7 +18,16 @@ const OrderSummary = () => {
   const formattedTotal = total.toFixed(2);
   const formattedSavings = savings.toFixed(2);
 
-  const handlePayment = () => {};
+  const handlePayment = async () => {
+    const stripe = await stripePromise;
+    const res = await axios.post("/payments/create-checkout-session", {
+      products: cart,
+      coupon: coupon ? coupon.code : null,
+    });
+
+    const session = res.data;
+    console.log(session);
+  };
   return (
     <motion.div
       className="space-y-4 rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm sm:p-6"
