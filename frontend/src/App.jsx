@@ -21,10 +21,8 @@ const App = () => {
   const { getCartItems } = useCartStore();
 
   useEffect(() => {
-    if (user) {
-      checkAuth();
-    }
-  }, []);
+    checkAuth();
+  }, [checkAuth]);
 
   useEffect(() => {
     if (!user) return;
@@ -33,6 +31,7 @@ const App = () => {
   }, [getCartItems, user]);
 
   if (checkingAuth) return <LoadingSpinner />;
+
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
       {/* Background gradient */}

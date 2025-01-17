@@ -8,11 +8,10 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, loading } = useUserStore();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login({ email, password });
+    login(email, password);
   };
   return (
     <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
