@@ -30,7 +30,7 @@ const App = () => {
     if (!user) return;
 
     getCartItems();
-  }, []);
+  }, [getCartItems, user]);
 
   if (checkingAuth) return <LoadingSpinner />;
   return (

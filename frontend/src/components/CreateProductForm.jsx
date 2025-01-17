@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, Upload, Loader } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
-import { useUserStore } from "../stores/useUserStore";
 
 const categories = [
   "jeans",
@@ -16,7 +15,6 @@ const categories = [
 
 const CreateProductForm = () => {
   const { loading, createProduct } = useProductStore();
-  const { checkAuth } = useUserStore();
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -27,7 +25,6 @@ const CreateProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    checkAuth();
     try {
       await createProduct(newProduct);
       setNewProduct({

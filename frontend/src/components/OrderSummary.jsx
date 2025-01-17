@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useCartStore } from "../stores/useCartStore";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ const OrderSummary = () => {
     const stripe = await stripePromise;
     const res = await axios.post("/payments/create-checkout-session", {
       products: cart,
-      coupon: coupon ? coupon.code : null,
+      couponCode: coupon ? coupon.code : null,
     });
 
     const session = res.data;
@@ -52,7 +52,7 @@ const OrderSummary = () => {
             </dd>
           </dl>
 
-          {savings > 0 && (
+          {savings > 1 && (
             <dl className="flex items-center justify-between gap-4">
               <dt className="text-base font-normal text-gray-300">Savings</dt>
               <dd className="text-base font-medium text-emerald-400">
