@@ -45,9 +45,7 @@ export const useCartStore = create((set, get) => ({
       toast.error(error.response.data.message || "An error occurred");
     }
   },
-  clearCart: async () => {
-    set({ cart: [], coupon: null, total: 0, subtotal: 0 });
-  },
+
   addToCart: async (product) => {
     try {
       await axios.post("/cart", { productId: product._id });
@@ -71,6 +69,7 @@ export const useCartStore = create((set, get) => ({
       toast.error(error.response.data.message || "An error occurred");
     }
   },
+
   removeFromCart: async (productId) => {
     await axios.delete(`/cart`, { data: { productId } });
     set((prevState) => ({
@@ -78,6 +77,7 @@ export const useCartStore = create((set, get) => ({
     }));
     get().calculateTotals();
   },
+
   updateQuantity: async (productId, quantity) => {
     if (quantity === 0) {
       get().removeFromCart(productId);
@@ -92,15 +92,16 @@ export const useCartStore = create((set, get) => ({
     }));
     get().calculateTotals();
   },
+
   calculateTotals: () => {
-    const { cart, coupon } = get();
+    const { cart, coupon, isCouponApplied } = get();
     const subtotal = cart.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
     let total = subtotal;
 
-    if (coupon) {
+    if (coupon && isCouponApplied) {
       const discount = subtotal * (coupon.discountPercentage / 100);
       total = subtotal - discount;
     }
