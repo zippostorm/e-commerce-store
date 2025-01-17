@@ -9,7 +9,7 @@ export const getAnalyticsData = async () => {
   const salesData = await Order.aggregate([
     {
       $group: {
-        _id: null,
+        _id: null, // it groups all documents together,
         totalSales: { $sum: 1 },
         totalRevenue: { $sum: "$totalAmount" },
       },
