@@ -31,6 +31,7 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.error || "Failed to fetch products");
     }
   },
+
   fetchProductsByCategory: async (category) => {
     set({ loading: true });
     try {
@@ -41,6 +42,7 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.error || "Failed to fetch products");
     }
   },
+
   deleteProduct: async (productId) => {
     set({ loading: true });
     try {
@@ -56,6 +58,7 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.error || "Failed to delete product");
     }
   },
+
   toggleFeaturedProduct: async (productId) => {
     set({ loading: true });
     try {
@@ -74,6 +77,7 @@ export const useProductStore = create((set) => ({
       toast.error(error.response.data.error || "Failed to update product");
     }
   },
+
   fetchFeaturedProducts: async () => {
     set({ loading: true });
     try {
