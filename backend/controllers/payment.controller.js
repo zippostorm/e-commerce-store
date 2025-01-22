@@ -1,6 +1,7 @@
 import { stripe } from "../lib/stripe.js";
 import Coupon from "../models/coupon.model.js";
 import Order from "../models/order.model.js";
+import User from "../models/user.model.js";
 
 export const createCheckoutSession = async (req, res) => {
   try {
@@ -99,6 +100,9 @@ export const checkoutSuccess = async (req, res) => {
         stripeSessionId: sessionId,
       });
       await newOrder.save();
+      await User.findByIdAndUpdate(session.metadata.userId, {
+        $set: { cartItems: [] },
+      });
       res.status(200).json({ message: "Order created successfully" });
     }
   } catch (error) {
